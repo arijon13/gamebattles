@@ -1,9 +1,8 @@
-// app/layout.tsx
-
 "use client";
 
 import { ReactNode, useState } from "react";
 import Link from "next/link";
+import Footer from "./components/footer"; // Hvis footer.tsx ligger i samme mappe
 import { AuthProvider, useAuth } from "./authcontext";
 import "./globals.css";
 
@@ -19,9 +18,12 @@ export default function Layout({ children }: { children: ReactNode }) {
           <link rel="icon" href="/favicon.ico" />
         </head>
         <body className="min-h-screen bg-[#0a0e1a] text-white font-exo">
-          <div className="flex min-h-screen">
-            <Aside menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-            <MainContent menuOpen={menuOpen}>{children}</MainContent>
+          <div className="flex flex-col min-h-screen">
+            <div className="flex min-h-screen">
+              <Aside menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+              <MainContent menuOpen={menuOpen}>{children}</MainContent>
+            </div>
+            <Footer /> {/* Footeren er nå inkludert */}
           </div>
         </body>
       </html>
@@ -39,15 +41,23 @@ function Aside({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (ope
       <button
         onClick={() => setMenuOpen(!menuOpen)}
         className="text-2xl font-bold w-full text-[#e6e9f5] text-left mb-6 px-2 py-2 focus:outline-none hover:bg-[#292b3d] transition-all rounded-md"
-        style={{ transform: 'translate(-4px, -8px)', fontSize: '1.5rem' }}
+        style={{ transform: "translate(-4px, -8px)", fontSize: "1.5rem" }}
       >
         ☰
       </button>
       <nav className={`${menuOpen ? "block" : "hidden"} space-y-4`}>
-        <Link href="/" className="block text-[#e6e9f5] px-2 py-2 rounded-md hover:bg-[#3c4263]">Home</Link>
-        <Link href="/leaderboard" className="block text-[#e6e9f5] px-2 py-2 rounded-md hover:bg-[#3c4263]">Leaderboard</Link>
-        <Link href="/find-players" className="block text-[#e6e9f5] px-2 py-2 rounded-md hover:bg-[#3c4263]">Find Players</Link>
-        <Link href="/login" className="block text-[#e6e9f5] px-2 py-2 rounded-md hover:bg-[#3c4263]">Login</Link>
+        <Link href="/" className="block text-[#e6e9f5] px-2 py-2 rounded-md hover:bg-[#3c4263]">
+          Home
+        </Link>
+        <Link href="/leaderboard" className="block text-[#e6e9f5] px-2 py-2 rounded-md hover:bg-[#3c4263]">
+          Leaderboard
+        </Link>
+        <Link href="/find-players" className="block text-[#e6e9f5] px-2 py-2 rounded-md hover:bg-[#3c4263]">
+          Find Players
+        </Link>
+        <Link href="/login" className="block text-[#e6e9f5] px-2 py-2 rounded-md hover:bg-[#3c4263]">
+          Login
+        </Link>
       </nav>
     </aside>
   );
@@ -74,22 +84,17 @@ function MainContent({ children, menuOpen }: { children: ReactNode; menuOpen: bo
   };
 
   return (
-    <div className={`flex-1 flex flex-col transition-all duration-300 ${menuOpen ? 'ml-64' : 'ml-16'}`}>
-      {/* Header */}
+    <div className={`flex-1 flex flex-col transition-all duration-300 ${menuOpen ? "ml-64" : "ml-16"}`}>
       <header className="bg-[#1f2236] p-4 flex items-center justify-between shadow-md sticky top-0 z-50">
-        <div className="flex items-center justify-between w-full max-w-5xl mx-auto">
-          {/* GameBattles Logo aligned closer to center */}
-          <h1 className="text-4xl font-extrabold text-[#00d4ff] mr-auto" style={{ marginLeft: '5%' }}>
-            GameBattles
-          </h1>
+        <div className="flex items-center justify-between w-full max-w-6xl mx-auto relative">
+          <h1 className="text-4xl font-extrabold text-[#00d4ff]">GameBattles</h1>
 
-          {isLoggedIn ? (
-            <div className="relative flex items-center space-x-4 mx-auto">
-              {/* Centered Balance and Wallet Button */}
-              <div className="flex items-center relative">
+          {isLoggedIn && (
+            <div className="absolute inset-x-0 mx-auto flex items-center justify-center">
+              <div className="relative flex items-center">
                 <button
                   onClick={toggleDropdown}
-                  className="flex items-center px-4 py-2 text-center rounded-l-lg border border-[#4b86e1] text-white bg-transparent"
+                  className="flex items-center px-4 py-2 rounded-l-lg border border-[#4b86e1] text-white bg-transparent"
                   style={{ minWidth: "140px", height: "40px" }}
                 >
                   <span>{balance.toFixed(8)}</span>
@@ -105,9 +110,8 @@ function MainContent({ children, menuOpen }: { children: ReactNode; menuOpen: bo
                 >
                   Wallet
                 </button>
-
                 {showBalanceDropdown && (
-                  <div className="absolute top-14 left-1/2 transform -translate-x-1/2 w-48 bg-[#2e3354] border border-[#494e6b] rounded-md shadow-lg">
+                  <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-48 bg-[#2e3354] border border-[#494e6b] rounded-md shadow-lg">
                     <ul className="py-2 text-xs">
                       {currencies
                         .filter((c) => c.name !== selectedCurrency)
@@ -126,15 +130,15 @@ function MainContent({ children, menuOpen }: { children: ReactNode; menuOpen: bo
                           </li>
                         ))}
                     </ul>
-                    <div className="px-4 py-2 text-center text-[#81a1f0] cursor-pointer hover:bg-[#3c4263]">
-                      Wallet Settings
-                    </div>
                   </div>
                 )}
               </div>
+            </div>
+          )}
 
-              {/* Profile Dropdown aligned closer to center */}
-              <div className="relative ml-4">
+          {isLoggedIn ? (
+            <div className="flex items-center space-x-6">
+              <div className="relative">
                 <button onClick={toggleProfileDropdown} className="flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -150,13 +154,12 @@ function MainContent({ children, menuOpen }: { children: ReactNode; menuOpen: bo
                   </svg>
                 </button>
                 {showProfileDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-[#2e3354] border border-[#494e6b] rounded-md shadow-lg">
+                  <div className="absolute top-14 right-0 w-48 bg-[#2e3354] border border-[#494e6b] rounded-md shadow-lg">
                     <ul className="py-2 text-[#c3c8f3]">
                       <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Profile</li>
                       <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Wallet</li>
                       <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Friends</li>
                       <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Statistics</li>
-                      <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Settings</li>
                       <li
                         onClick={logout}
                         className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer text-[#ff475a]"
@@ -169,11 +172,11 @@ function MainContent({ children, menuOpen }: { children: ReactNode; menuOpen: bo
               </div>
             </div>
           ) : (
-            <div className="space-x-4 flex items-center ml-auto">
-              <Link href="/login" className="text-[#e6e9f5] px-4 py-2 rounded-lg bg-transparent hover:bg-[#556cd6] transition-all">
+            <div className="space-x-4">
+              <Link href="/login" className="text-[#e6e9f5] px-4 py-2 rounded-lg bg-transparent hover:bg-[#556cd6]">
                 Sign In
               </Link>
-              <Link href="/register" className="text-white px-4 py-2 rounded-lg bg-[#556cd6] hover:bg-[#6b8df8] transition-all">
+              <Link href="/register" className="text-white px-4 py-2 rounded-lg bg-[#556cd6]">
                 Register
               </Link>
             </div>
@@ -181,46 +184,7 @@ function MainContent({ children, menuOpen }: { children: ReactNode; menuOpen: bo
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-grow">{children}</main>
-
-      {/* Footer with Information Section */}
-      <footer className="bg-[#1f2236] text-[#c3c8f3] py-10 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* About Us Section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-2 border-b border-[#00d4ff] pb-1">About Us</h3>
-            <ul className="space-y-1">
-              <li><Link href="/about">Our Story</Link></li>
-              <li><Link href="/team">Our Team</Link></li>
-              <li><Link href="/careers">Careers</Link></li>
-            </ul>
-          </div>
-
-          {/* Games Section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-2 border-b border-[#00d4ff] pb-1">Games</h3>
-            <ul className="space-y-1">
-              <li><Link href="/games/fifa">FIFA</Link></li>
-              <li><Link href="/games/csgo">CS:GO</Link></li>
-              <li><Link href="/games/fortnite">Fortnite</Link></li>
-              <li><Link href="/games/cod">Call of Duty</Link></li>
-            </ul>
-          </div>
-
-          {/* Customer Service Section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-2 border-b border-[#00d4ff] pb-1">Customer Service</h3>
-            <ul className="space-y-1">
-              <li><Link href="/support">Support Center</Link></li>
-              <li><Link href="/faq">FAQs</Link></li>
-              <li><Link href="/contact">Contact Us</Link></li>
-              <li><Link href="/self-exclusion">Self Exclusion</Link></li>
-            </ul>
-          </div>
-        </div>
-        <p className="mt-6 text-center">&copy; 2024 GameBattles. All rights reserved.</p>
-      </footer>
     </div>
   );
 }
