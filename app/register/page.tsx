@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../authcontext";
+import { registerUser, loginUser } from "../../src/api";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -15,40 +16,47 @@ export default function Register() {
   const router = useRouter();
   const { register } = useAuth();
 
+  const allGames = [
+    "Fortnite",
+    "FIFA",
+    "CS:GO",
+    "Call of Duty",
+    "League of Legends",
+    "PUBG",
+  ];
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     try {
+      // Register the user
       await register(username, email, password);
-      setShowGamesPopup(true); // Show the games popup after successful registration
+
+      // Optionally, trigger the popup for games
+      setShowGamesPopup(true);
     } catch (err: any) {
-      console.error("HandleRegister error:", err);
+      console.error("Error during registration:", err);
       setError(err.message || "Something went wrong. Please try again.");
     }
   };
 
   const handleSelectGame = (game: string) => {
     if (selectedGames.includes(game)) {
-      // Uncheck the game if it's already selected
       setSelectedGames(selectedGames.filter((g) => g !== game));
     } else {
-      // Select the game if it's not already selected
       setSelectedGames([...selectedGames, game]);
     }
   };
 
   const handleOAuthLogin = (game: string) => {
-    // Mock OAuth login for the selected game
     console.log(`OAuth login for: ${game}`);
-    // Here you would redirect to the actual OAuth flow for the selected game
+    // Add actual OAuth logic for the selected game
   };
 
   const handleSkipGames = () => {
-    router.push("/"); // Redirect to the home page if the user skips game selection
+    router.push("/"); // Redirect to the homepage if the user skips game selection
   };
-
-  const allGames = ["Fortnite", "FIFA", "CS:GO", "Call of Duty", "League of Legends", "PUBG"];
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-900">
@@ -100,7 +108,7 @@ export default function Register() {
       {showGamesPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-white text-xl mb-4">Games</h3>
+            <h3 className="text-white text-xl mb-4">Select Games</h3>
             <div className="flex flex-col space-y-2">
               {allGames.slice(0, showAllGames ? allGames.length : 3).map((game) => (
                 <button

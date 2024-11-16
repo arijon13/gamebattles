@@ -1,11 +1,12 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { loginUser } from "../src/api"; // Import login API function
 
 interface AuthContextProps {
   isLoggedIn: boolean;
   balance: number;
-  login: (balance: number) => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (username: string, email: string, password: string) => Promise<void>;
 }
@@ -17,46 +18,56 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    const storedLogin = localStorage.getItem("isLoggedIn");
+    const storedToken = localStorage.getItem("token");
     const storedBalance = localStorage.getItem("balance");
 
-    if (storedLogin === "true" && storedBalance) {
+    if (storedToken && storedBalance) {
       setIsLoggedIn(true);
       setBalance(parseFloat(storedBalance));
     }
   }, []);
 
-  const login = (newBalance: number) => {
-    setIsLoggedIn(true);
-    setBalance(newBalance);
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("balance", newBalance.toString());
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await loginUser(email, password);
+      const { token, user } = response;
+
+      setIsLoggedIn(true);
+      setBalance(user.balance);
+
+      localStorage.setItem("token", token); // Save token for authentication
+      localStorage.setItem("balance", user.balance.toString());
+    } catch (error: any) {
+      console.error("Login error:", error.message || error);
+      throw new Error(error.message || "Failed to log in.");
+    }
   };
 
   const logout = () => {
     setIsLoggedIn(false);
     setBalance(0);
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("token");
     localStorage.removeItem("balance");
   };
 
   const register = async (username: string, email: string, password: string) => {
     try {
-      // Simulert forsinkelse for å etterligne et API-kall
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      });
 
-      // Sjekk om alle feltene er fylt ut
-      if (!username || !email || !password) {
-        throw new Error("All fields are required.");
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Registration failed.");
       }
 
-      // Simulert registrering - mock svar
-      const mockBalance = 100; // Tildeler mock-saldo etter registrering
-      login(mockBalance); // Logg inn med startsaldo
-
-    } catch (error: any) { // Angi at 'error' er av typen 'any'
-      console.error("Registration error:", error);
-      throw new Error(`Registration failed: ${error.message || 'Unknown error'}`);
+      // Automatically log the user in after registration
+      await login(email, password);
+    } catch (error: any) {
+      console.error("Registration error:", error.message || error);
+      throw new Error(error.message || "Failed to register.");
     }
   };
 
