@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { registerUser, loginUser, getUserBalance } from "../src/api";
 
 interface AuthContextProps {
   isLoggedIn: boolean;
@@ -16,38 +17,40 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [balance, setBalance] = useState(0);
 
-  // Simulate stored token and balance
+  // Load token and balance from localStorage on mount
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    const storedBalance = localStorage.getItem("balance");
-
-    if (storedToken && storedBalance) {
+    if (storedToken) {
       setIsLoggedIn(true);
-      setBalance(parseFloat(storedBalance));
+      fetchBalance();
     }
   }, []);
 
-  // Simulate the login function for testing
+  // Fetch user balance from back-end
+  const fetchBalance = async () => {
+    try {
+      const balance = await getUserBalance();
+      setBalance(balance);
+      localStorage.setItem("balance", balance.toString());
+    } catch (error) {
+      console.error("Failed to fetch balance:", error);
+    }
+  };
+
+  // Login function with back-end integration
   const login = async (email: string, password: string) => {
     try {
-      // Simulating successful login with hardcoded values
-      if (email === "test@example.com" && password === "password123") {
-        setIsLoggedIn(true);
-        setBalance(1000); // Hardcoded balance for testing
-
-        // Simulating storing token and balance in localStorage
-        localStorage.setItem("token", "test-token");
-        localStorage.setItem("balance", "1000");
-      } else {
-        throw new Error("Invalid email or password.");
-      }
+      const data = await loginUser(email, password);
+      setIsLoggedIn(true);
+      localStorage.setItem("token", data.token);
+      setBalance(data.user.balance); // Use balance from API response
     } catch (error: any) {
       console.error("Login error:", error.message || error);
       throw new Error(error.message || "Failed to log in.");
     }
   };
 
-  // Simulate the logout function for testing
+  // Logout function
   const logout = () => {
     setIsLoggedIn(false);
     setBalance(0);
@@ -55,18 +58,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("balance");
   };
 
-  // Simulate the register function for testing
+  // Register function with back-end integration
   const register = async (username: string, email: string, password: string) => {
     try {
-      // Simulating successful registration
-      if (email === "test@example.com") {
-        console.log("[Test Register] User registered:", username, email);
-
-        // Simulate automatic login after registration
-        await login(email, password);
-      } else {
-        throw new Error("Registration failed.");
-      }
+      const data = await registerUser(username, email, password);
+      console.log("User registered:", data.user);
+      await login(email, password); // Automatically login after registration
     } catch (error: any) {
       console.error("Registration error:", error.message || error);
       throw new Error(error.message || "Failed to register.");

@@ -1,47 +1,28 @@
-export const matchesData = [
-  {
-    id: 1,
-    image: "/images/matches/match1.jpg",
-    entryFee: "$10",
-    teamSize: "Solo",
-    region: "NA East",
-    fightType: "Box Fight",
+const fortniteData = {
+  gameImage: "/images/games/fortnite.jpg",
+  matches: [
+    {
+      id: 1,
+      image: "/images/games/fortnite.jpg",
+      entryFee: "$10",
+      teamSize: "2v2",
+      region: "EU",
+      fightType: "Standard",
+    },
+  ],
+  tournaments: [
+    {
+      id: 1,
+      entryFee: "$10",
+      region: "EU",
+      fightType: "Elimination",
+    },
+  ],
+  criteria: {
+    regions: ["EU", "NA", "ASIA"], // Kun regioner tilgjengelig i Fortnite
+    teamSizes: ["1v1", "2v2", "3v3"], // Spesifikke team-størrelser for Fortnite
+    fightTypes: ["Standard", "Elimination"], // Spesifikke kamptyper
   },
-  {
-    id: 2,
-    image: "/images/matches/match2.jpg",
-    entryFee: "$25",
-    teamSize: "Duo",
-    region: "EU",
-    fightType: "Zone Wars",
-  },
-  {
-    id: 3,
-    image: "/images/matches/match3.jpg",
-    entryFee: "$50",
-    teamSize: "Squad",
-    region: "NA West",
-    fightType: "Build Fight",
-  },
-];
+};
 
-export const tournamentsData = [
-  {
-    id: 1,
-    entryFee: "Free",
-    region: "EU",
-    fightType: "Zone Wars",
-  },
-  {
-    id: 2,
-    entryFee: "$5",
-    region: "NA East",
-    fightType: "Box Fight",
-  },
-  {
-    id: 3,
-    entryFee: "$10",
-    region: "NA West",
-    fightType: "Build Fight",
-  },
-];
+export default fortniteData;

@@ -1,6 +1,7 @@
 "use client";
 
-interface Tournament {
+// Eksporterer `Tournament`-typen slik at den kan brukes andre steder
+export interface Tournament {
   id: number;
   entryFee: string;
   region: string;

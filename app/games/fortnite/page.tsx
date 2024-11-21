@@ -1,15 +1,16 @@
 "use client";
 
-import Games from "../games";
-import { matchesData, tournamentsData } from "../fortnitedata";
+import Games from '../games';
+import fortniteData from '../fortnitedata';
 
-export default function Fortnite() {
+export default function FortnitePage() {
   return (
     <Games
-      gameId="Fortnite"
-      gameImage="/images/games/fortnite.jpg"
-      matches={matchesData}
-      tournaments={tournamentsData}
+      gameId="fortnite"
+      gameImage={fortniteData.gameImage}
+      matches={fortniteData.matches}
+      tournaments={fortniteData.tournaments}
+      criteria={fortniteData.criteria} // Sender kriterier for filtrering
     />
   );
 }
