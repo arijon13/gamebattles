@@ -1,36 +1,32 @@
-// app/login.tsx
-
 "use client";
 
 import { useState } from "react";
+import { useAuth } from "../authcontext"; // Ensure this path matches your project structure
 import { useRouter } from "next/navigation";
-import { useAuth } from "../authcontext"; // Bruk authcontext i små bokstaver
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
   const { login } = useAuth();
 
-  const mockUsername = "user123";
-  const mockPassword = "Str0ngP@ssw0rd!";
-  const mockBalance = 1000; // Eksempel på saldo
-
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
-    if (username === mockUsername && password === mockPassword) {
-      console.log("Innlogging vellykket. Oppdaterer authcontext.");
+    console.log("[LOGIN PAGE] Email entered:", email);
 
-      // Kall login-funksjonen fra AuthContext
-      login(mockBalance);
+    try {
+      // Call the login function from AuthContext
+      await login(email, password);
+      console.log("[LOGIN PAGE] Login successful!");
 
-      // Naviger til forsiden
-      router.push("/"); // Omdirigerer til hovedsiden etter innlogging
-    } else {
-      console.log("Innlogging feilet: Feil brukernavn eller passord.");
-      setError("Invalid username or password.");
+      // Redirect to the homepage after successful login
+      router.push("/");
+    } catch (err: any) {
+      console.error("[LOGIN PAGE] Login failed:", err.message || err);
+      setError(err.message || "Invalid email or password.");
     }
   };
 
@@ -42,11 +38,11 @@ export default function Login() {
       >
         <h2 className="text-2xl text-white mb-4">Log In</h2>
         <div className="mb-4">
-          <label className="text-white block mb-2">Username</label>
+          <label className="text-white block mb-2">Email</label>
           <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full p-2 rounded-lg bg-gray-700 text-white"
             required
           />
