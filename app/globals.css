@@ -78,3 +78,14 @@ a:hover {
 .card:hover {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
+
+/* Shared Header-Sidebar Line Style */
+.header-sidebar-line {
+  height: 2px; /* Thickness of the line */
+  background: linear-gradient(to right, #1f2236, #2a2f48); /* Smooth gradient for consistency */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.6); /* Subtle 3D shadow */
+  position: absolute;
+  z-index: 10;
+  width: 100%; /* Ensures it spans the full width */
+  top: 71px; /* Aligns perfectly under the header */
+}

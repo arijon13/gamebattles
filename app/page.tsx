@@ -77,7 +77,7 @@ export default function Home() {
           {filteredGames.slice(currentIndex, currentIndex + gamesToShow + 1).map((game, index) => (
             <Link
               key={index}
-              href={game.path}
+              href={game.path} // Oppdatert for å peke til riktig spill
               className={`relative ${index === gamesToShow ? 'w-20 opacity-70 blur-[1px]' : 'w-40'} h-56 rounded-lg overflow-hidden shadow-2xl transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105`}
               style={{
                 borderRadius: '12px',
