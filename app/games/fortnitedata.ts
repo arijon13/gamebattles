@@ -1,47 +1,48 @@
-export const matchesData = [
+"use client";
+
+export const fortniteMatches = [
   {
     id: 1,
-    image: "/images/matches/match1.jpg",
-    entryFee: "$10",
-    teamSize: "Solo",
-    region: "NA East",
-    fightType: "Box Fight",
+    image: "/images/games/fortnite.jpg", // Bruker fortnite.jpg
+    entryFee: "$5",
+    teamSize: "1v1",
+    region: "EU",
+    matchType: "Build Mode",
   },
   {
     id: 2,
-    image: "/images/matches/match2.jpg",
-    entryFee: "$25",
-    teamSize: "Duo",
-    region: "EU",
-    fightType: "Zone Wars",
-  },
-  {
-    id: 3,
-    image: "/images/matches/match3.jpg",
-    entryFee: "$50",
-    teamSize: "Squad",
-    region: "NA West",
-    fightType: "Build Fight",
+    image: "/images/games/fortnite.jpg", // Bruker fortnite.jpg
+    entryFee: "$10",
+    teamSize: "2v2",
+    region: "NA",
+    matchType: "No Build Mode",
   },
 ];
 
-export const tournamentsData = [
+export const fortniteTournaments = [
   {
     id: 1,
-    entryFee: "Free",
+    entryFee: "$20",
     region: "EU",
-    fightType: "Zone Wars",
+    matchType: "Knockout",
   },
   {
     id: 2,
-    entryFee: "$5",
-    region: "NA East",
-    fightType: "Box Fight",
-  },
-  {
-    id: 3,
-    entryFee: "$10",
-    region: "NA West",
-    fightType: "Build Fight",
+    entryFee: "$25",
+    region: "NA",
+    matchType: "Round Robin",
   },
 ];
+
+export const fortniteCriteria = {
+  regions: ["EU", "NA", "ASIA", "SA"],
+  teamSizes: ["1v1", "2v2"],
+  matchTypes: ["Build Mode", "No Build Mode", "Knockout", "Round Robin"],
+};
+
+export const fortniteData = {
+  gameImage: "/images/games/fortnite.jpg", // Bruker fortnite.jpg
+  matches: fortniteMatches,
+  tournaments: fortniteTournaments,
+  criteria: fortniteCriteria,
+};

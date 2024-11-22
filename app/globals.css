@@ -49,7 +49,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Button styles */
+/* ---------- BUTTONS ---------- */
 .futuristic-button {
   @apply px-4 py-2 text-white font-bold rounded-lg transition-transform shadow-lg;
   background: var(--primary-accent);
@@ -67,25 +67,149 @@ a:hover {
   box-shadow: 0 4px 10px rgba(78, 90, 232, 0.4);
 }
 
-/* Card styles */
-.card {
-  @apply p-4 rounded-lg shadow-lg transition-shadow;
-  background-color: var(--background);
-  color: var(--foreground);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.button-primary {
+  @apply px-4 py-2 text-white font-bold rounded-lg;
+  background: linear-gradient(135deg, #4e5ae8, #1a1c2c);
 }
 
-.card:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+.button-primary:hover {
+  background: linear-gradient(135deg, #6b78f0, #23263b);
+  transform: translateY(-2px) scale(1.05);
 }
 
-/* Shared Header-Sidebar Line Style */
-.header-sidebar-line {
-  height: 2px; /* Thickness of the line */
-  background: linear-gradient(to right, #1f2236, #2a2f48); /* Smooth gradient for consistency */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.6); /* Subtle 3D shadow */
+.button-secondary {
+  @apply px-4 py-2 text-gray-800 font-medium rounded-lg border border-gray-300;
+  background: var(--background);
+}
+
+.button-secondary:hover {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+
+/* ---------- CARDS ---------- */
+.card-small {
+  @apply p-3 rounded-lg shadow-sm bg-[#292d3e] text-white;
+}
+
+.card-medium {
+  @apply p-6 rounded-lg shadow-md bg-[#1f2236] text-white;
+}
+
+.card-large {
+  @apply p-8 rounded-lg shadow-lg bg-gradient-to-b from-[#1f2236] to-[#292d3e] text-white;
+}
+
+.card-hover:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ---------- BACKGROUNDS ---------- */
+.bg-gradient-primary {
+  @apply bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500;
+}
+
+.bg-gradient-secondary {
+  @apply bg-gradient-to-b from-[#1f2236] to-[#292d3e];
+}
+
+/* ---------- HEADERS ---------- */
+.header-large {
+  @apply text-4xl font-extrabold text-center text-white;
+}
+
+.header-medium {
+  @apply text-2xl font-bold text-white;
+}
+
+.header-small {
+  @apply text-xl font-semibold text-gray-400;
+}
+
+/* ---------- ANIMATIONS ---------- */
+.animate-fade-in {
+  @apply opacity-0;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  @apply opacity-0 translate-y-4;
+  animation: slideUp 0.4s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- LAYOUT UTILITY ---------- */
+.flex-center {
+  @apply flex justify-center items-center;
+}
+
+.flex-between {
+  @apply flex justify-between items-center;
+}
+
+.flex-column {
+  @apply flex flex-col items-center;
+}
+
+/* ---------- ICON WRAPPERS ---------- */
+.icon-wrapper {
+  @apply w-10 h-10 flex justify-center items-center rounded-full bg-[#292d3e];
+}
+
+/* ---------- TOOLTIP ---------- */
+/* Tooltip container */
+.tooltip {
+  position: relative;
+}
+
+/* Tooltip text */
+.tooltip-text {
   position: absolute;
-  z-index: 10;
-  width: 100%; /* Ensures it spans the full width */
-  top: 71px; /* Aligns perfectly under the header */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Vis tooltip ved hover */
+.tooltip:hover .tooltip-text {
+  opacity: 1;
+}
+
+/* ---------- SCROLLBAR ---------- */
+/* Fjern scrollbar, men behold scroll-funksjonalitet */
+.no-scrollbar {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For IE og Edge */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari og andre WebKit-baserte nettlesere */
 }

@@ -3,7 +3,7 @@
 import { useAuth } from "../authcontext";
 import Link from "next/link";
 import { useState } from "react";
-import WalletPopup from "./wallet-popup"; // Import Wallet Popup Component
+import WalletPopup from "./wallet-popup";
 
 export default function Header() {
   const { isLoggedIn, logout, balance } = useAuth();
@@ -20,7 +20,7 @@ export default function Header() {
 
   const toggleProfileDropdown = () => {
     setShowProfileDropdown(!showProfileDropdown);
-    setShowWalletPopup(false); // Ensure only one dropdown is open at a time
+    setShowWalletPopup(false);
   };
 
   const toggleBalanceDropdown = () => {
@@ -29,30 +29,33 @@ export default function Header() {
 
   const toggleWalletPopup = () => {
     setShowWalletPopup(!showWalletPopup);
-    setShowProfileDropdown(false); // Ensure only one dropdown is open at a time
+    setShowProfileDropdown(false);
   };
 
   return (
     <>
       <header
-        className="bg-[#1f2236] flex flex-col justify-between shadow-md sticky top-0 z-50"
+        className="bg-[#10132b] flex flex-col justify-between shadow-lg sticky top-0 z-50"
         style={{ height: "71px" }}
       >
         <div className="flex items-center justify-between h-full">
           {/* GameBattles Title */}
-          <h1 className="text-3xl font-bold text-[#00d4ff]" style={{ marginLeft: "400px" }}>
+          <h1
+            className="text-2xl md:text-3xl font-extrabold text-[#00e7ff] tracking-wide hover:text-[#00b9d6] transition-colors"
+            style={{ marginLeft: "400px" }}
+          >
             GameBattles
           </h1>
 
-          {/* Balance Display - Centered */}
+          {/* Balance Display */}
           {isLoggedIn && (
             <div
               className="absolute left-1/2 transform -translate-x-1/2 flex items-center"
-              style={{ minWidth: "140px", height: "40px", zIndex: 20 }} // Ensure Wallet Button is above other elements
+              style={{ minWidth: "140px", height: "40px", zIndex: 20 }}
             >
               <button
                 onClick={toggleBalanceDropdown}
-                className="flex items-center px-4 py-2 rounded-l-lg border border-[#4b86e1] text-white bg-transparent h-[40px]"
+                className="flex items-center px-4 py-2 rounded-l-lg border border-[#00e7ff] text-white bg-transparent hover:bg-[#1b2148] h-[40px] transition-all"
               >
                 <span>{balance ? balance.toFixed(8) : "0.00"}</span>
                 <img
@@ -63,15 +66,15 @@ export default function Header() {
               </button>
               <button
                 onClick={toggleWalletPopup}
-                className="px-4 py-2 bg-[#4b86e1] text-white rounded-r-lg h-[40px]"
-                style={{ marginLeft: "-1px", zIndex: 30 }} // Higher z-index for the Wallet button
+                className="px-4 py-2 bg-[#00e7ff] text-white rounded-r-lg h-[40px] hover:bg-[#00b9d6] transition-all"
+                style={{ marginLeft: "-1px", zIndex: 30 }}
               >
                 Wallet
               </button>
               {showBalanceDropdown && (
                 <div
                   className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-48 bg-[#2e3354] border border-[#494e6b] rounded-md shadow-lg"
-                  style={{ zIndex: 25 }} // Ensure dropdown appears above other elements
+                  style={{ zIndex: 25 }}
                 >
                   <ul className="py-2 text-xs">
                     {currencies
@@ -100,17 +103,19 @@ export default function Header() {
             </div>
           )}
 
-          {/* Conditional rendering based on login state */}
-          {isLoggedIn ? (
-            <div className="flex items-center space-x-4 ml-auto" style={{ flex: 1, justifyContent: "flex-end" }}>
-              {/* Profile Icon */}
-              <div className="relative" style={{ marginRight: "400px", zIndex: 30 }}>
-                <button onClick={toggleProfileDropdown} className="flex items-center">
+          {/* Login/Register or Profile */}
+          <div className="flex items-center space-x-4" style={{ marginRight: "400px" }}>
+            {isLoggedIn ? (
+              <div className="relative">
+                <button
+                  onClick={toggleProfileDropdown}
+                  className="flex items-center"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-8 h-8 text-[#c3c8f3] hover:text-[#ffffff]"
+                    className="w-8 h-8 text-[#c3c8f3] hover:text-[#ffffff] transition-all"
                   >
                     <path
                       fillRule="evenodd"
@@ -121,8 +126,8 @@ export default function Header() {
                 </button>
                 {showProfileDropdown && (
                   <div
-                    className="absolute top-14 right-0 w-48 bg-[#2e3354] border border-[#494e6b] rounded-md shadow-lg"
-                    style={{ zIndex: 35 }} // Ensure Profile Dropdown is above other elements
+                    className="absolute top-full mt-2 right-0 w-48 bg-[#2e3354] border border-[#494e6b] rounded-md shadow-lg"
+                    style={{ zIndex: 35 }}
                   >
                     <ul className="py-2 text-[#c3c8f3]">
                       <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Profile</li>
@@ -139,22 +144,36 @@ export default function Header() {
                   </div>
                 )}
               </div>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-4" style={{ marginRight: "400px" }}>
-              {/* Login/Register Links */}
-              <Link href="/login" className="text-[#e6e9f5] px-4 py-2 rounded-lg bg-transparent hover:bg-[#556cd6]">
-                Sign In
-              </Link>
-              <Link href="/register" className="text-white px-4 py-2 rounded-lg bg-[#556cd6]">
-                Register
-              </Link>
-            </div>
-          )}
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link
+                  href="/login"
+                  className="text-[#e6e9f5] px-4 py-2 rounded-lg bg-transparent hover:bg-[#556cd6] transition-all"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  className="text-white px-4 py-2 rounded-lg bg-[#556cd6] hover:bg-[#4056b6] transition-all"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Line at the bottom of the Header */}
-        <div className="header-sidebar-line" style={{ height: "2px", width: "100%", zIndex: 1 }} />
+        {/* Glødende linje under header */}
+        <div
+          className="header-sidebar-line"
+          style={{
+            height: "2px",
+            width: "100%",
+            background: "linear-gradient(to right, #00e7ff, #00b9d6)",
+            boxShadow: "0px 0px 8px rgba(0, 231, 255, 0.8)",
+            zIndex: 1,
+          }}
+        />
       </header>
 
       {/* Wallet Popup */}
