@@ -41,12 +41,13 @@ export default function Header() {
       >
         <div className="flex items-center justify-between h-full">
           {/* GameBattles Title */}
-          <h1
+          <Link
+            href="/"
             className="text-2xl md:text-3xl font-extrabold text-[#00e7ff] tracking-wide hover:text-[#00b9d6] transition-colors"
             style={{ marginLeft: "400px" }}
           >
             GameBattles
-          </h1>
+          </Link>
 
           {/* Balance Display */}
           {isLoggedIn && (
@@ -120,10 +121,19 @@ export default function Header() {
                     style={{ zIndex: 35 }}
                   >
                     <ul className="py-2 text-[#c3c8f3]">
-                      <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Profile</li>
-                      <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Wallet</li>
-                      <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Friends</li>
-                      <li className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer">Statistics</li>
+                      <li className="px-4 py-2 hover:bg-[#86d9f9] cursor-pointer">
+                        <Link href="/profile">Profile</Link>
+                      </li>
+                      <li
+                        onClick={toggleWalletPopup}
+                        className="px-4 py-2 hover:bg-[#86d9f9] cursor-pointer"
+                      >
+                        Wallet
+                      </li>
+                      <li className="px-4 py-2 hover:bg-[#86d9f9] cursor-pointer">
+                        <Link href="/friends">Friends</Link>
+                      </li>
+                      <li className="px-4 py-2 hover:bg-[#86d9f9] cursor-pointer">Statistics</li>
                       <li
                         onClick={logout}
                         className="px-4 py-2 hover:bg-[#3c4263] cursor-pointer text-[#ff475a]"

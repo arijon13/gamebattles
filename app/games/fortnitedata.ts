@@ -3,7 +3,7 @@
 export const fortniteMatches = [
   {
     id: 1,
-    image: "/images/games/fortnite.jpg", // Bruker fortnite.jpg
+    image: "/images/games/fortnite.jpg",
     entryFee: "$5",
     teamSize: "1v1",
     region: "EU",
@@ -11,7 +11,7 @@ export const fortniteMatches = [
   },
   {
     id: 2,
-    image: "/images/games/fortnite.jpg", // Bruker fortnite.jpg
+    image: "/images/games/fortnite.jpg",
     entryFee: "$10",
     teamSize: "2v2",
     region: "NA",
@@ -21,17 +21,30 @@ export const fortniteMatches = [
 
 export const fortniteTournaments = [
   {
-    id: 1,
+    id: 201,
+    image: "/images/games/fortnite.jpg",
     entryFee: "$20",
     region: "EU",
     matchType: "Knockout",
+    enrolled: 16,
   },
   {
-    id: 2,
+    id: 202,
+    image: "/images/games/fortnite.jpg",
     entryFee: "$25",
     region: "NA",
     matchType: "Round Robin",
+    enrolled: 12,
   },
+  {
+    id: 203,
+    image: "/images/games/fortnite.jpg",
+    entryFee: "Free",
+    region: "ASIA",
+    matchType: "Knockout",
+    enrolled: 20,
+  },
+  // Legg til flere turneringer her
 ];
 
 export const fortniteCriteria = {
@@ -41,7 +54,7 @@ export const fortniteCriteria = {
 };
 
 export const fortniteData = {
-  gameImage: "/images/games/fortnite.jpg", // Bruker fortnite.jpg
+  gameImage: "/images/games/fortnite.jpg",
   matches: fortniteMatches,
   tournaments: fortniteTournaments,
   criteria: fortniteCriteria,

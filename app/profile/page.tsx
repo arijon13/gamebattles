@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Layout from "@/app/layout"; // Importer Layout-komponenten
+import Layout from "@/app/layout"; // Import Layout Component
 
 export default function Profile() {
   const [user, setUser] = useState({
@@ -11,70 +11,84 @@ export default function Profile() {
     totalWins: 45,
     totalLosses: 22,
     winRate: "67%",
-    region: "EU",
-    anonymous: false, // Ny egenskap for anonym modus
+    profilePicture: "/images/default-profile.png",
   });
 
-  const [isAnonymous, setIsAnonymous] = useState(user.anonymous);
-
-  const handleSaveChanges = () => {
-    setUser({ ...user, anonymous: isAnonymous });
-    alert(`Profile updated. Anonymous mode is now: ${isAnonymous ? "On" : "Off"}`);
+  const handleProfilePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.result) {
+          setUser({ ...user, profilePicture: reader.result as string });
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   return (
-    <Layout> {/* Omslutter innholdet med Layout for å vise menyen */}
-      <main className="bg-gray-900 text-white min-h-screen flex flex-col items-center py-10">
-        <div className="bg-gray-800 p-8 rounded-lg shadow-lg text-center w-80">
-          <h2 className="text-3xl font-bold mb-4">{user.username}</h2>
-          <p className="text-lg text-blue-200">Rank: {user.rank}</p>
-          <p className="text-lg text-blue-200 mt-2">Total Wagered: {user.totalWagered}</p>
-
-          <div className="mt-6">
-            <h3 className="text-2xl font-bold mb-2">Statistics</h3>
-            <p className="text-lg">Total Wins: {user.totalWins}</p>
-            <p className="text-lg">Total Losses: {user.totalLosses}</p>
-            <p className="text-lg">Win Rate: {user.winRate}</p>
-          </div>
-
-          {/* Velg region */}
-          <div className="mt-6">
-            <label htmlFor="region" className="block text-lg mb-2">Region:</label>
-            <select
-              id="region"
-              value={user.region}
-              onChange={(e) => setUser({ ...user, region: e.target.value })}
-              className="w-full px-4 py-2 text-gray-900 rounded-md"
+    <Layout>
+      <main className="bg-gradient-to-br from-[#1a1b32] via-[#121222] to-[#0f0f20] text-white min-h-screen flex justify-center items-center">
+        <div className="bg-gradient-to-b from-[#2e3354] to-[#1e233b] p-8 rounded-xl shadow-2xl w-full max-w-lg text-center">
+          {/* Profile Picture */}
+          <div className="relative">
+            <img
+              src={user.profilePicture}
+              alt="Profile"
+              className="w-32 h-32 rounded-full mx-auto border-4 border-[#00e7ff] shadow-md"
+            />
+            <label
+              htmlFor="profilePicture"
+              className="absolute bottom-0 right-12 bg-[#00e7ff] p-2 rounded-full cursor-pointer hover:bg-[#00b9d6] transition-all"
+              title="Change Profile Picture"
             >
-              <option value="EU">EU</option>
-              <option value="NAE">NAE</option>
-              <option value="NAW">NAW</option>
-              <option value="ASIA">ASIA</option>
-            </select>
-          </div>
-
-          {/* Anonym modus bryter */}
-          <div className="mt-6 flex items-center">
-            <span className="text-lg mr-4">Anonym Modus</span>
-            <label className="relative inline-flex items-center cursor-pointer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="white"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5.121 17.804A1 1 0 0 1 5 17.414V15m0-4.586V7.414A2 2 0 0 1 6.414 6h3.172a2 2 0 0 1 1.414.586l1.414 1.414a2 2 0 0 0 1.414.586h3.172A2 2 0 0 1 19 10v3.586a2 2 0 0 1-.586 1.414l-7 7A2 2 0 0 1 10 22H6.414A2 2 0 0 1 5 20.586V18a1 1 0 0 1 .121-.196l-.001.001z"
+                />
+              </svg>
               <input
-                type="checkbox"
-                checked={isAnonymous}
-                onChange={() => setIsAnonymous(!isAnonymous)}
-                className="sr-only peer"
+                type="file"
+                id="profilePicture"
+                accept="image/*"
+                onChange={handleProfilePictureChange}
+                className="hidden"
               />
-              <div className="w-11 h-6 bg-gray-500 rounded-full peer-checked:bg-green-500 transition-colors duration-200"></div>
-              <div className="absolute left-1 top-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-200 transform peer-checked:translate-x-full"></div>
             </label>
           </div>
 
-          {/* Lagre endringer */}
-          <button
-            onClick={handleSaveChanges}
-            className="px-6 py-2 mt-4 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-500 transition duration-300"
-          >
-            Save Changes
-          </button>
+          {/* User Information */}
+          <h1 className="text-2xl font-bold mt-6 mb-2">{user.username}</h1>
+          <p className="text-lg text-[#86d9f9] mb-4">{user.rank}</p>
+
+          {/* Statistics */}
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="bg-[#1a1b32] p-4 rounded-lg shadow-md">
+              <p className="text-gray-400">Total Wagered</p>
+              <p className="text-[#00e7ff] font-semibold">{user.totalWagered}</p>
+            </div>
+            <div className="bg-[#1a1b32] p-4 rounded-lg shadow-md">
+              <p className="text-gray-400">Win Rate</p>
+              <p className="text-[#00e7ff] font-semibold">{user.winRate}</p>
+            </div>
+            <div className="bg-[#1a1b32] p-4 rounded-lg shadow-md">
+              <p className="text-gray-400">Total Wins</p>
+              <p className="text-[#00e7ff] font-semibold">{user.totalWins}</p>
+            </div>
+            <div className="bg-[#1a1b32] p-4 rounded-lg shadow-md">
+              <p className="text-gray-400">Total Losses</p>
+              <p className="text-[#00e7ff] font-semibold">{user.totalLosses}</p>
+            </div>
+          </div>
         </div>
       </main>
     </Layout>

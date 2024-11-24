@@ -6,7 +6,8 @@ import {
   TrophyIcon,
   MagnifyingGlassIcon,
   HeartIcon,
-  ClockIcon, // Nytt ikon for Recent
+  ClockIcon,
+  PlayIcon, // Ikon for Games
 } from "@heroicons/react/24/outline";
 
 export default function Sidebar({
@@ -21,7 +22,8 @@ export default function Sidebar({
     { href: "/leaderboard", label: "Leaderboard", icon: <TrophyIcon className="w-6 h-6" /> },
     { href: "/find-players", label: "Find Players", icon: <MagnifyingGlassIcon className="w-6 h-6" /> },
     { href: "/favourites", label: "Favourites", icon: <HeartIcon className="w-6 h-6" /> },
-    { href: "/recent", label: "Recent", icon: <ClockIcon className="w-6 h-6" /> }, // Lagt til Recent
+    { href: "/recent", label: "Recent", icon: <ClockIcon className="w-6 h-6" /> },
+    { href: "/all-games", label: "Games", icon: <PlayIcon className="w-6 h-6" /> }, // Oppdatert sti for Games
   ];
 
   return (
@@ -36,7 +38,7 @@ export default function Sidebar({
         style={{
           height: "2px",
           top: "69px",
-          backgroundColor: "#00e7ff", // Samme som headerlinjen
+          backgroundColor: "#00e7ff",
           opacity: 0.8,
           boxShadow: "0 4px 6px rgba(0, 231, 255, 0.4)",
         }}
@@ -48,7 +50,7 @@ export default function Sidebar({
         style={{
           width: "2px",
           right: 0,
-          backgroundColor: "#00e7ff", // Samme som andre linjer
+          backgroundColor: "#00e7ff",
           opacity: 0.8,
           boxShadow: "0 4px 6px rgba(0, 231, 255, 0.4)",
         }}
