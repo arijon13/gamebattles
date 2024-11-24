@@ -18,9 +18,14 @@ export default function Matches({ matches }: MatchesProps) {
 
   return (
     <div className="bg-gradient-to-b from-[#1f2236] to-[#292d3e] p-8 rounded-xl shadow-2xl">
-      <h2 className="text-3xl font-extrabold text-white mb-8 text-center tracking-wider">
-        Available Matches
-      </h2>
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-3xl font-extrabold text-white tracking-wider">
+          Available Matches
+        </h2>
+        <button className="px-6 py-2 text-sm font-bold text-white rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 hover:opacity-90 shadow-md hover:shadow-lg hover:scale-105 transition-transform">
+          Create Match
+        </button>
+      </div>
 
       {/* Wrapper med fjernet scrollbar */}
       <div className="overflow-x-auto no-scrollbar">

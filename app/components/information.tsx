@@ -4,16 +4,18 @@ import Link from "next/link";
 
 export default function Information() {
   return (
-    <div className="bg-[#1f2236] text-[#c3c8f3] py-10 px-6 w-full">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full sm:w-[55%] mx-auto">
+    <div className="bg-gradient-to-br from-[#1a1b32] via-[#121222] to-[#0f0f20] text-[#c3c8f3] py-10 px-6 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-5xl mx-auto">
         {/* About Us Section */}
         <div className="text-center sm:text-left">
-          <h3 className="text-lg font-semibold mb-2 border-b border-[#00d4ff] pb-1">About Us</h3>
-          <ul className="space-y-1">
+          <h3 className="text-xl font-bold mb-4 text-[#00e7ff] border-b-2 border-[#00d4ff] pb-2">
+            About Us
+          </h3>
+          <ul className="space-y-2">
             <li>
               <Link
                 href="/about"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 Our Story
               </Link>
@@ -21,7 +23,7 @@ export default function Information() {
             <li>
               <Link
                 href="/team"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 Our Team
               </Link>
@@ -29,7 +31,7 @@ export default function Information() {
             <li>
               <Link
                 href="/careers"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 Careers
               </Link>
@@ -39,12 +41,14 @@ export default function Information() {
 
         {/* Games Section */}
         <div className="text-center sm:text-left">
-          <h3 className="text-lg font-semibold mb-2 border-b border-[#00d4ff] pb-1">Games</h3>
-          <ul className="space-y-1">
+          <h3 className="text-xl font-bold mb-4 text-[#00e7ff] border-b-2 border-[#00d4ff] pb-2">
+            Games
+          </h3>
+          <ul className="space-y-2">
             <li>
               <Link
                 href="/games/fifa"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 FIFA
               </Link>
@@ -52,7 +56,7 @@ export default function Information() {
             <li>
               <Link
                 href="/games/csgo"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 CS:GO
               </Link>
@@ -60,7 +64,7 @@ export default function Information() {
             <li>
               <Link
                 href="/games/fortnite"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 Fortnite
               </Link>
@@ -68,7 +72,7 @@ export default function Information() {
             <li>
               <Link
                 href="/games/cod"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 Call of Duty
               </Link>
@@ -78,12 +82,14 @@ export default function Information() {
 
         {/* Customer Service Section */}
         <div className="text-center sm:text-left">
-          <h3 className="text-lg font-semibold mb-2 border-b border-[#00d4ff] pb-1">Customer Service</h3>
-          <ul className="space-y-1">
+          <h3 className="text-xl font-bold mb-4 text-[#00e7ff] border-b-2 border-[#00d4ff] pb-2">
+            Customer Service
+          </h3>
+          <ul className="space-y-2">
             <li>
               <Link
                 href="/support"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 Support Center
               </Link>
@@ -91,7 +97,7 @@ export default function Information() {
             <li>
               <Link
                 href="/faq"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 FAQs
               </Link>
@@ -99,7 +105,7 @@ export default function Information() {
             <li>
               <Link
                 href="/contact"
-                className="text-cyan-400 hover:underline hover:text-cyan-300 transition-colors"
+                className="text-cyan-400 hover:text-[#00b9d6] transition-colors"
               >
                 Contact Us
               </Link>

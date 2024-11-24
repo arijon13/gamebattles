@@ -6,16 +6,22 @@ import Information from "./information";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1f2236] text-[#c3c8f3] py-6 w-full">
-      <div className="flex flex-col space-y-4 px-6 mx-auto w-full max-w-5xl">
+    <footer className="bg-gradient-to-br from-[#1a1b32] via-[#121222] to-[#0f0f20] text-[#c3c8f3] py-10">
+      <div className="flex flex-col space-y-8 px-6 mx-auto w-full max-w-5xl">
         {/* LiveBets Section */}
-        <LiveBets />
+        <div className="bg-gradient-to-b from-[#1e233b] to-[#14182d] rounded-lg shadow-xl p-6">
+          <LiveBets />
+        </div>
 
         {/* Leaderboard Section */}
-        <Leaderboard />
+        <div className="bg-gradient-to-b from-[#1e233b] to-[#14182d] rounded-lg shadow-xl p-6">
+          <Leaderboard />
+        </div>
 
         {/* Footer Information Section */}
-        <Information />
+        <div className="bg-gradient-to-b from-[#1e233b] to-[#14182d] rounded-lg shadow-xl p-6">
+          <Information />
+        </div>
       </div>
     </footer>
   );

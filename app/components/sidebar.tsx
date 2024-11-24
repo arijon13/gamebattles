@@ -1,6 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import {
+  HomeIcon,
+  TrophyIcon,
+  MagnifyingGlassIcon,
+  HeartIcon,
+  ClockIcon, // Nytt ikon for Recent
+} from "@heroicons/react/24/outline";
 
 export default function Sidebar({
   menuOpen,
@@ -10,10 +17,11 @@ export default function Sidebar({
   toggleMenu: () => void;
 }) {
   const mainLinks = [
-    { href: "/", label: "Home", icon: "🏠" },
-    { href: "/leaderboard", label: "Leaderboard", icon: "🏆" },
-    { href: "/find-players", label: "Find Players", icon: "🔍" },
-    { href: "/login", label: "Login", icon: "🔑" },
+    { href: "/", label: "Home", icon: <HomeIcon className="w-6 h-6" /> },
+    { href: "/leaderboard", label: "Leaderboard", icon: <TrophyIcon className="w-6 h-6" /> },
+    { href: "/find-players", label: "Find Players", icon: <MagnifyingGlassIcon className="w-6 h-6" /> },
+    { href: "/favourites", label: "Favourites", icon: <HeartIcon className="w-6 h-6" /> },
+    { href: "/recent", label: "Recent", icon: <ClockIcon className="w-6 h-6" /> }, // Lagt til Recent
   ];
 
   return (
@@ -70,9 +78,7 @@ export default function Sidebar({
               } hover:bg-[#1a223f] rounded-md`}
             >
               {/* Icon */}
-              <span
-                className={`text-2xl text-[#00e7ff] transition-all duration-300`}
-              >
+              <span className="text-[#00e7ff] transition-all duration-300">
                 {link.icon}
               </span>
 

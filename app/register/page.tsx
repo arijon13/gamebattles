@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../authcontext";
-import { registerUser, loginUser } from "../../src/api";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -30,10 +29,7 @@ export default function Register() {
     setError("");
 
     try {
-      // Register the user
       await register(username, email, password);
-
-      // Optionally, trigger the popup for games
       setShowGamesPopup(true);
     } catch (err: any) {
       console.error("Error during registration:", err);
@@ -51,93 +47,102 @@ export default function Register() {
 
   const handleOAuthLogin = (game: string) => {
     console.log(`OAuth login for: ${game}`);
-    // Add actual OAuth logic for the selected game
   };
 
   const handleSkipGames = () => {
-    router.push("/"); // Redirect to the homepage if the user skips game selection
+    router.push("/");
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-900">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-[#1a1d31] via-[#10132b] to-[#0d0f26]">
       <form
         onSubmit={handleRegister}
-        className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm"
+        className="bg-[#2e3354] p-8 rounded-lg shadow-xl w-full max-w-sm border border-[#4b86e1]"
       >
-        <h2 className="text-2xl text-white mb-4">Register</h2>
+        <h2 className="text-2xl font-bold text-[#c3c8f3] mb-6 text-center">
+          Register
+        </h2>
         <div className="mb-4">
-          <label className="text-white block mb-2">Username</label>
+          <label className="text-[#86d9f9] block mb-2">Username</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-2 rounded-lg bg-gray-700 text-white"
+            className="w-full p-3 rounded-lg bg-[#3c4263] text-white placeholder-[#6672a1] focus:outline-none focus:ring-2 focus:ring-[#4b86e1] border border-[#4b86e1]"
+            placeholder="Enter your username"
             required
           />
         </div>
         <div className="mb-4">
-          <label className="text-white block mb-2">Email</label>
+          <label className="text-[#86d9f9] block mb-2">Email</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 rounded-lg bg-gray-700 text-white"
+            className="w-full p-3 rounded-lg bg-[#3c4263] text-white placeholder-[#6672a1] focus:outline-none focus:ring-2 focus:ring-[#4b86e1] border border-[#4b86e1]"
+            placeholder="Enter your email"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="text-white block mb-2">Password</label>
+        <div className="mb-6">
+          <label className="text-[#86d9f9] block mb-2">Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 rounded-lg bg-gray-700 text-white"
+            className="w-full p-3 rounded-lg bg-[#3c4263] text-white placeholder-[#6672a1] focus:outline-none focus:ring-2 focus:ring-[#4b86e1] border border-[#4b86e1]"
+            placeholder="Enter your password"
             required
           />
         </div>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {error && (
+          <p className="text-[#ff475a] text-sm mb-4 text-center">{error}</p>
+        )}
         <button
           type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-400"
+          className="w-full p-3 rounded-lg bg-gradient-to-r from-[#4b86e1] to-[#73a9f1] text-white font-semibold hover:opacity-90 transition-all"
         >
           Register
         </button>
       </form>
 
-      {/* Games Selection Popup */}
       {showGamesPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-white text-xl mb-4">Select Games</h3>
-            <div className="flex flex-col space-y-2">
-              {allGames.slice(0, showAllGames ? allGames.length : 3).map((game) => (
-                <button
-                  key={game}
-                  onClick={() => handleSelectGame(game)}
-                  className={`p-2 rounded-lg ${
-                    selectedGames.includes(game)
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-700 text-gray-300"
-                  }`}
-                >
-                  {selectedGames.includes(game) ? `✔ ${game}` : game}
-                </button>
-              ))}
+          <div className="bg-[#2e3354] p-6 rounded-lg shadow-xl w-full max-w-md">
+            <h3 className="text-lg font-semibold text-[#c3c8f3] mb-4">
+              Select Games
+            </h3>
+            <div className="grid grid-cols-1 gap-3">
+              {allGames
+                .slice(0, showAllGames ? allGames.length : 3)
+                .map((game) => (
+                  <button
+                    key={game}
+                    onClick={() => handleSelectGame(game)}
+                    className={`p-3 rounded-lg text-center font-semibold ${
+                      selectedGames.includes(game)
+                        ? "bg-[#4b86e1] text-white"
+                        : "bg-[#3c4263] text-[#c3c8f3]"
+                    } hover:bg-[#4b86e1] transition-all`}
+                  >
+                    {selectedGames.includes(game) ? `✔ ${game}` : game}
+                  </button>
+                ))}
             </div>
             {!showAllGames && (
               <button
                 onClick={() => setShowAllGames(true)}
-                className="mt-4 w-full p-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600"
+                className="mt-4 w-full p-3 bg-gradient-to-r from-[#4b86e1] to-[#73a9f1] text-white rounded-lg hover:opacity-90 transition-all"
               >
                 Show more
               </button>
             )}
-            <div className="mt-4">
+            <div className="mt-4 space-y-2">
               {selectedGames.map((game) => (
                 <button
                   key={`${game}-login`}
                   onClick={() => handleOAuthLogin(game)}
-                  className="w-full p-2 mb-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-400"
+                  className="w-full p-3 bg-[#ffcc00] text-black rounded-lg hover:opacity-90 transition-all"
                 >
                   Log in to {game}
                 </button>
@@ -145,7 +150,7 @@ export default function Register() {
             </div>
             <button
               onClick={handleSkipGames}
-              className="mt-4 w-full p-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600"
+              className="mt-4 w-full p-3 bg-[#3c4263] text-[#c3c8f3] rounded-lg hover:bg-[#4b86e1] transition-all"
             >
               Skip for now
             </button>

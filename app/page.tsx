@@ -70,7 +70,7 @@ export default function Home() {
 
       {/* Carousel Section with Games Title */}
       <section className="relative flex flex-col items-start max-w-5xl w-full px-8 pt-4 pb-20">
-        <h2 className="text-2xl font-bold text-[#d7e0fc] mb-4">Games</h2>
+        <h2 className="text-2xl font-bold text-[#00e7ff] mb-4">Games</h2>
         <div className="flex space-x-4 overflow-hidden w-full justify-center">
           {filteredGames.slice(currentIndex, currentIndex + gamesToShow + 1).map((game, index) => (
             <Link
