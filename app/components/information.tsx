@@ -113,6 +113,16 @@ export default function Information() {
           </ul>
         </div>
       </div>
+
+      {/* Copyright Section */}
+      <div className="mt-12 pt-8 border-t border-[#2e3354]/30 text-center">
+        <p className="text-sm text-[#86d9f9]/70">
+          © {new Date().getFullYear()} GameBattles. All rights reserved. 
+        </p>
+        <p className="text-xs text-[#86d9f9]/50 mt-2">
+          All trademarks referenced herein are the properties of their respective owners.
+        </p>
+      </div>
     </div>
   );
 }

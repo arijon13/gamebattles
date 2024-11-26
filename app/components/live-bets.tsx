@@ -1,70 +1,126 @@
 "use client";
 
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 export default function LiveBets() {
   type SectionType = "mybets" | "livebets" | "highrollers";
   const [activeSection, setActiveSection] = useState<SectionType>("mybets");
 
+  const buttonVariants = {
+    inactive: { scale: 1 },
+    active: { 
+      scale: 1.05,
+      transition: { type: "spring", stiffness: 300, damping: 15 }
+    }
+  };
+
+  const contentVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.4, ease: "easeOut" }
+    },
+    exit: { 
+      opacity: 0,
+      y: -20,
+      transition: { duration: 0.3 }
+    }
+  };
+
   const sections: Record<SectionType, JSX.Element> = {
     mybets: (
-      <div className="bg-[#1a1b32] p-4 rounded-xl shadow-md w-full">
-        <ul className="space-y-2">
-          <li className="text-center text-[#c3c8f3]">No active bets.</li>
-        </ul>
-      </div>
+      <motion.div 
+        className="glass-card p-6 rounded-xl"
+        variants={contentVariants}
+      >
+        <div className="text-center space-y-4">
+          <span className="text-[#86d9f9] text-lg">No active bets</span>
+          <p className="text-[#c3c8f3]/70">Place your first bet to get started!</p>
+          <button className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg text-white font-medium hover:opacity-90 transition-opacity">
+            Place Bet
+          </button>
+        </div>
+      </motion.div>
     ),
     livebets: (
-      <div className="bg-[#1a1b32] p-4 rounded-xl shadow-md w-full">
-        <p className="text-center text-[#c3c8f3]">Here are the live bets!</p>
-      </div>
+      <motion.div 
+        className="glass-card p-6 rounded-xl"
+        variants={contentVariants}
+      >
+        <div className="text-center space-y-4">
+          <span className="text-[#86d9f9] text-lg">Live bets</span>
+          <p className="text-[#c3c8f3]/70">Here are the live bets!</p>
+        </div>
+      </motion.div>
     ),
     highrollers: (
-      <div className="bg-[#1a1b32] p-4 rounded-xl shadow-md w-full">
-        <ul className="space-y-2">
-          <li className="text-[#86d9f9]">Top Bet: <span className="text-[#00d4ff]">50 BTC</span></li>
-          <li className="text-[#86d9f9]">Player: <span className="text-[#00d4ff]">BigSpender123</span></li>
-        </ul>
-      </div>
+      <motion.div 
+        className="glass-card p-6 rounded-xl"
+        variants={contentVariants}
+      >
+        <div className="text-center space-y-4">
+          <span className="text-[#86d9f9] text-lg">Top Bet</span>
+          <p className="text-[#c3c8f3]/70">50 BTC</p>
+          <p className="text-[#c3c8f3]/70">Player: BigSpender123</p>
+        </div>
+      </motion.div>
     ),
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#1a1b32] via-[#121222] to-[#0f0f20] text-[#c3c8f3] p-6 rounded-xl shadow-2xl w-full max-w-5xl mx-auto mb-8">
-      <h3 className="text-2xl font-bold text-[#00e7ff] mb-6 text-center">Live Bets</h3>
-      <div className="flex justify-center space-x-4 mb-6">
-        <button
-          onClick={() => setActiveSection("mybets")}
-          className={`px-6 py-2 rounded-lg font-bold transition-all ${
-            activeSection === "mybets"
-              ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-md scale-105"
-              : "bg-[#292d3e] text-cyan-400 hover:scale-105 hover:bg-cyan-500"
-          }`}
-        >
-          My Bets
-        </button>
-        <button
-          onClick={() => setActiveSection("livebets")}
-          className={`px-6 py-2 rounded-lg font-bold transition-all ${
-            activeSection === "livebets"
-              ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-md scale-105"
-              : "bg-[#292d3e] text-cyan-400 hover:scale-105 hover:bg-cyan-500"
-          }`}
-        >
-          Live Bets
-        </button>
-        <button
-          onClick={() => setActiveSection("highrollers")}
-          className={`px-6 py-2 rounded-lg font-bold transition-all ${
-            activeSection === "highrollers"
-              ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-md scale-105"
-              : "bg-[#292d3e] text-cyan-400 hover:scale-105 hover:bg-cyan-500"
-          }`}
-        >
-          High Rollers
-        </button>
+    <div className="space-y-8">
+      <motion.h3 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-3xl font-bold bg-gradient-to-r from-[#00e7ff] to-[#0077ff] bg-clip-text text-transparent text-center"
+      >
+        Live Bets
+      </motion.h3>
+
+      <div className="flex justify-center space-x-4">
+        {["mybets", "livebets", "highrollers"].map((section) => (
+          <motion.button
+            key={section}
+            variants={buttonVariants}
+            animate={activeSection === section ? "active" : "inactive"}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setActiveSection(section as SectionType)}
+            className={`
+              px-6 py-3 rounded-lg font-medium transition-all duration-300
+              ${activeSection === section
+                ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg"
+                : "bg-[#292d3e]/80 text-cyan-400 hover:bg-[#2e3354]"
+              }
+            `}
+          >
+            {section.charAt(0).toUpperCase() + section.slice(1)}
+          </motion.button>
+        ))}
       </div>
-      <div>{sections[activeSection]}</div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeSection}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={contentVariants}
+        >
+          {sections[activeSection]}
+        </motion.div>
+      </AnimatePresence>
+
+      <style jsx>{`
+        .glass-card {
+          background: rgba(26, 27, 50, 0.7);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+      `}</style>
     </div>
   );
 }
