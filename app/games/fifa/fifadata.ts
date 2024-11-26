@@ -39,13 +39,15 @@ export const fifaTournaments = [
 ];
 
 export const fifaCriteria = {
-  regions: ["EU", "NA", "ASIA", "SA"],
+  regions: [],
   teamSizes: ["1v1", "Pro Clubs"],
   matchTypes: ["Standard", "Knockout", "Round Robin"],
+  showRegion: false
 };
 
 export const fifaData = {
-  gameImage: "/images/games/fc.jpg", // Legger til header-bilde
+  id: "fifa",
+  gameImage: "/images/games/fc.jpg",
   matches: fifaMatches,
   tournaments: fifaTournaments,
   criteria: fifaCriteria,

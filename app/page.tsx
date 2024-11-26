@@ -10,7 +10,7 @@ export default function Home() {
     { name: "Fortnite", image: "/images/games/fortnite.jpg", path: "/games/fortnite" },
     { name: "Call of Duty", image: "/images/games/cod.png", path: "/games/cod" },
     { name: "League of Legends", image: "/images/games/league-of-legends.png", path: "/games/lol" },
-    { name: "Apex Legends", image: "/images/games/apex-legends.png", path: "/games/apex" },
+    { name: "Apex Legends", image: "/images/games/apex-legends.png", path: "/games/apexlegends" },
     { name: "Rocket League", image: "/images/games/rocket-league.png", path: "/games/rocketleague" },
   ];
 

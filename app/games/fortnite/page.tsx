@@ -1,7 +1,7 @@
 "use client";
 
 import Games from '../games';
-import { fortniteData } from '../fortnitedata';
+import { fortniteData } from './fortnitedata';
 
 export default function FortnitePage() {
   return (
