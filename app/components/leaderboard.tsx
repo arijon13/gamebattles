@@ -8,8 +8,7 @@ const allPlayers = Array.from({ length: 100 }, (_, i) => ({
   rank: i + 1,
   name: `Player${i + 1}`,
   wagered: `${(5000 - i * 50).toFixed(2)}`,
-  winRate: `${Math.floor(80 - i/2)}%`,
-  status: i < 3 ? "Elite" : i < 10 ? "Pro" : "Active"
+  winRate: `${Math.floor(80 - i/2)}%`
 }));
 
 const getRankIcon = (rank: number) => {
@@ -91,12 +90,18 @@ export default function Leaderboard() {
                   exit={{ opacity: 0, y: -20 }}
                   className={`
                     relative p-4 rounded-xl 
-                    ${player.rank <= 3 
-                      ? 'bg-gradient-to-r from-[#1a1b32]/90 to-[#2e3354]/90' 
+                    ${player.rank === 1 
+                      ? 'bg-gradient-to-r from-[#1a1b32]/90 to-[#2e3354]/90 before:bg-gold-gradient' 
+                      : player.rank === 2
+                      ? 'bg-gradient-to-r from-[#1a1b32]/90 to-[#2e3354]/90 before:bg-silver-gradient'
+                      : player.rank === 3
+                      ? 'bg-gradient-to-r from-[#1a1b32]/90 to-[#2e3354]/90 before:bg-bronze-gradient'
                       : 'bg-[#1a1b32]/40'}
                     hover:bg-[#2e3354]/50 transition-all duration-300
                     border border-[#2e3354]/30
                     ${player.rank <= 3 ? 'shadow-lg shadow-[#2e3354]/20' : ''}
+                    before:absolute before:inset-0 before:rounded-xl before:p-[2px]
+                    before:animate-shine before:-z-10 before:bg-[length:400%_400%]
                   `}
                 >
                   <div className="flex items-center justify-between">
@@ -114,14 +119,6 @@ export default function Leaderboard() {
                         </span>
                         <span className="font-semibold text-white">{player.name}</span>
                       </div>
-                      <span className={`
-                        px-2 py-1 rounded-full text-xs
-                        ${player.rank <= 3 ? 'bg-yellow-400/20 text-yellow-400' :
-                          player.rank <= 10 ? 'bg-blue-400/20 text-blue-400' :
-                          'bg-green-400/20 text-green-400'}
-                      `}>
-                        {player.status}
-                      </span>
                     </div>
                     <div className="flex items-center space-x-6">
                       <div className="text-right">

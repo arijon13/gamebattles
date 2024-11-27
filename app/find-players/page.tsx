@@ -2,16 +2,16 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { UserCircleIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
 
 export default function FindPlayers() {
   const [searchQuery, setSearchQuery] = useState("");
   const [players] = useState([
-    { name: "Player1", region: "EU", rank: "Elite", winRate: "78%", gamesPlayed: "1,234" },
-    { name: "Player2", region: "NAE", rank: "Pro", winRate: "72%", gamesPlayed: "956" },
-    { name: "Player3", region: "NAW", rank: "Elite", winRate: "81%", gamesPlayed: "2,145" },
-    { name: "Player4", region: "EU", rank: "Pro", winRate: "75%", gamesPlayed: "1,567" },
-    { name: "Player5", region: "ASIA", rank: "Active", winRate: "69%", gamesPlayed: "789" },
+    { name: "Player1", winRate: "78%", gamesPlayed: "1,234" },
+    { name: "Player2", winRate: "72%", gamesPlayed: "956" },
+    { name: "Player3", winRate: "81%", gamesPlayed: "2,145" },
+    { name: "Player4", winRate: "75%", gamesPlayed: "1,567" },
+    { name: "Player5", winRate: "69%", gamesPlayed: "789" },
   ]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,17 +97,6 @@ export default function FindPlayers() {
                       transition-colors duration-300">
                       {player.name}
                     </h3>
-                    <div className="flex items-center space-x-2 text-sm text-[#86d9f9]/70">
-                      <GlobeAltIcon className="w-4 h-4" />
-                      <span>{player.region}</span>
-                      <span>•</span>
-                      <span className={`
-                        ${player.rank === 'Elite' ? 'text-yellow-400' : 
-                          player.rank === 'Pro' ? 'text-purple-400' : 'text-blue-400'}
-                      `}>
-                        {player.rank}
-                      </span>
-                    </div>
                   </div>
                 </div>
 

@@ -72,7 +72,7 @@ const WalletPopup: React.FC<WalletPopupProps> = ({ onClose }) => {
         </div>
 
         {/* Content Section */}
-        <div className="p-6 overflow-y-auto h-[calc(100%-130px)] bg-gradient-to-b from-[#1a1d31] to-[#10132b] rounded-b-lg shadow-inner">
+        <div className="p-6 overflow-y-auto h-[calc(100%-130px)] bg-gradient-to-b from-[#1a1d31] to-[#10132b] rounded-b-lg shadow-inner custom-scrollbar">
           {activeTab === "deposit" && <Deposit />}
           {activeTab === "withdraw" && <Withdraw />}
           {activeTab === "buy" && <Buy />}

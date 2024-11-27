@@ -204,12 +204,61 @@ a:hover {
 }
 
 /* ---------- SCROLLBAR ---------- */
-/* Fjern scrollbar, men behold scroll-funksjonalitet */
-.no-scrollbar {
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none; /* For IE og Edge */
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none; /* For Chrome, Safari og andre WebKit-baserte nettlesere */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1a1b32;
+  border-radius: 10px;
+  margin: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #46d1ff;
+  border-radius: 10px;
+  border: 2px solid #1a1b32;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3db5e0;
+}
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #46d1ff #1a1b32;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% 50%;
+  }
+  100% {
+    background-position: -200% 50%;
+  }
+}
+
+.glow-gold {
+  box-shadow: 0 0 10px theme('colors.yellow.400/30'),
+              0 0 20px theme('colors.yellow.400/20'),
+              0 0 30px theme('colors.yellow.400/10');
+}
+
+.glow-silver {
+  box-shadow: 0 0 10px theme('colors.gray.300/30'),
+              0 0 20px theme('colors.gray.300/20'),
+              0 0 30px theme('colors.gray.300/10');
+}
+
+.glow-bronze {
+  box-shadow: 0 0 10px theme('colors.amber.700/30'),
+              0 0 20px theme('colors.amber.700/20'),
+              0 0 30px theme('colors.amber.700/10');
+}
+
+.animate-shine {
+  animation: shine 8s linear infinite;
+  background-size: 400% 400%;
 }

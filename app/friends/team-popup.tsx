@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Friend } from "./friendsdata";
+import { motion } from "framer-motion";
 
 interface TeamPopupProps {
   isOpen: boolean;
@@ -55,65 +56,91 @@ export default function TeamPopup({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-      <div className="bg-gradient-to-br from-[#1a1d33] to-[#2d314b] p-6 rounded-2xl shadow-lg w-full max-w-lg border border-[#3e4260]">
-        <h3 className="text-xl font-semibold mb-6 text-[#e4e6f0] text-center">
-          Create a Team
-        </h3>
-        <input
-          type="text"
-          placeholder="Team Name"
-          value={teamName}
-          onChange={(e) => setTeamName(e.target.value)}
-          className="w-full mb-6 px-4 py-3 rounded-lg bg-[#24283e] text-white placeholder-gray-500 focus:ring-2 focus:ring-[#46d1ff] focus:outline-none"
-        />
-        <h4 className="text-md font-medium text-[#9da4bf] mb-3">Friends</h4>
-        <input
-          type="text"
-          placeholder="Search for friends"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full mb-5 px-4 py-3 rounded-lg bg-[#24283e] text-white placeholder-gray-500 focus:ring-2 focus:ring-[#46d1ff] focus:outline-none"
-        />
-        {paginatedFriends.length === 0 ? (
-          <p className="text-center text-gray-500">No friends found.</p>
-        ) : (
-          <ul className="space-y-4">
-            {paginatedFriends.map((friend) => (
-              <li
-                key={friend.id}
-                className={`flex items-center justify-between p-4 rounded-lg ${
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-gradient-to-br from-[#1a1b32] to-[#2e3354] p-6 rounded-2xl 
+          shadow-2xl w-full max-w-lg border border-[#86d9f9]/20 space-y-6"
+      >
+        <h3 className="text-2xl font-bold text-white text-center">Create a Team</h3>
+        
+        {/* Team Name Input */}
+        <div className="space-y-2">
+          <label className="text-sm text-[#86d9f9]/70">Team Name</label>
+          <input
+            type="text"
+            value={teamName}
+            onChange={(e) => setTeamName(e.target.value)}
+            className="w-full p-3 rounded-lg bg-[#1a1b32]/80 text-white 
+              placeholder-[#86d9f9]/50 border border-[#86d9f9]/20 
+              focus:border-[#86d9f9]/50 focus:outline-none focus:ring-2 
+              focus:ring-[#86d9f9]/20"
+            placeholder="Enter team name"
+          />
+        </div>
+
+        {/* Friend Search */}
+        <div className="space-y-2">
+          <label className="text-sm text-[#86d9f9]/70">Add Members</label>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full p-3 rounded-lg bg-[#1a1b32]/80 text-white 
+              placeholder-[#86d9f9]/50 border border-[#86d9f9]/20 
+              focus:border-[#86d9f9]/50 focus:outline-none focus:ring-2 
+              focus:ring-[#86d9f9]/20"
+            placeholder="Search friends"
+          />
+        </div>
+
+        {/* Friends List */}
+        <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
+          {paginatedFriends.map((friend) => (
+            <motion.div
+              key={friend.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`flex items-center justify-between p-4 rounded-lg transition-all duration-300
+                ${selectedFriends.includes(friend.id)
+                  ? 'bg-[#00e7ff]/20 border-[#00e7ff]/50'
+                  : 'bg-[#1a1b32]/60 hover:bg-[#1a1b32]/80'}
+                border border-[#86d9f9]/20`}
+            >
+              <div className="flex items-center space-x-4">
+                {friend.icon ? (
+                  <img
+                    src={friend.icon}
+                    alt={friend.name}
+                    className="w-10 h-10 rounded-full"
+                  />
+                ) : (
+                  <UserCircleIcon className="w-10 h-10 text-[#46d1ff]" />
+                )}
+                <span className="text-md">{friend.name}</span>
+              </div>
+              <button
+                onClick={() => handleFriendSelection(friend.id)}
+                className={`px-4 py-2 rounded-lg text-sm ${
                   selectedFriends.includes(friend.id)
-                    ? "bg-[#3e84e0] text-white"
-                    : "bg-[#24283e] text-gray-400"
+                    ? "bg-red-500 hover:bg-red-400"
+                    : "bg-[#46d1ff] hover:bg-[#3db5e0]"
                 }`}
               >
-                <div className="flex items-center space-x-4">
-                  {friend.icon ? (
-                    <img
-                      src={friend.icon}
-                      alt={friend.name}
-                      className="w-10 h-10 rounded-full"
-                    />
-                  ) : (
-                    <UserCircleIcon className="w-10 h-10 text-[#46d1ff]" />
-                  )}
-                  <span className="text-md">{friend.name}</span>
-                </div>
-                <button
-                  onClick={() => handleFriendSelection(friend.id)}
-                  className={`px-4 py-2 rounded-lg text-sm ${
-                    selectedFriends.includes(friend.id)
-                      ? "bg-red-500 hover:bg-red-400"
-                      : "bg-[#46d1ff] hover:bg-[#3db5e0]"
-                  }`}
-                >
-                  {selectedFriends.includes(friend.id) ? "Remove" : "Add"}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+                {selectedFriends.includes(friend.id) ? "Remove" : "Add"}
+              </button>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Pagination */}
         <div className="flex justify-between mt-6">
@@ -150,7 +177,7 @@ export default function TeamPopup({
             Create Team
           </button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

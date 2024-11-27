@@ -43,6 +43,14 @@ const config: Config = {
             filter: 'blur(0)'
           },
         },
+        shine: {
+          '0%': { 
+            backgroundPosition: '200% 50%',
+          },
+          '100%': { 
+            backgroundPosition: '-200% 50%',
+          }
+        },
       },
       animation: {
         fadeIn: 'fadeIn 0.5s ease-in forwards',
@@ -50,7 +58,13 @@ const config: Config = {
         slideDown: 'slideDown 0.5s ease-out forwards',
         contentFade: 'contentFade 0.3s ease-out forwards',
         cardEntrance: 'cardEntrance 0.5s ease-out forwards',
-      }
+        shine: 'shine 8s linear infinite',
+      },
+      backgroundImage: {
+        'gold-gradient': 'linear-gradient(to right, #ffd700, #fff7c2, #ffd700)',
+        'silver-gradient': 'linear-gradient(to right, #C0C0C0, #FFFFFF, #C0C0C0)',
+        'bronze-gradient': 'linear-gradient(to right, #CD7F32, #FFA07A, #CD7F32)',
+      },
     },
   },
   plugins: [],
