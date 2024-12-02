@@ -24,9 +24,10 @@ export default function Login() {
 
       // Redirect to the homepage after successful login
       router.push("/");
-    } catch (err: any) {
-      console.error("[LOGIN PAGE] Login failed:", err.message || err);
-      setError(err.message || "Invalid email or password.");
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Invalid email or password.";
+      console.error("[LOGIN PAGE] Login failed:", errorMessage);
+      setError(errorMessage);
     }
   };
 

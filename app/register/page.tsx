@@ -3,15 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../authcontext";
-import { registerUser, loginUser } from "../../src/api";
+import SelectGamesPopup from "../../components/SelectGamesPopup";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showGamesPopup, setShowGamesPopup] = useState(false);
-  const [showAllGames, setShowAllGames] = useState(false);
-  const [selectedGames, setSelectedGames] = useState<string[]>([]);
+  const [selectedGames, setSelectedGames] = useState<string[]>([]); // Fixed line
   const [error, setError] = useState("");
   const router = useRouter();
   const { register } = useAuth();
@@ -55,7 +54,8 @@ export default function Register() {
   };
 
   const handleSkipGames = () => {
-    router.push("/"); // Redirect to the homepage if the user skips game selection
+    setShowGamesPopup(false);
+    router.push("/"); // Redirect to the homepage
   };
 
   return (
@@ -104,53 +104,14 @@ export default function Register() {
         </button>
       </form>
 
-      {/* Games Selection Popup */}
       {showGamesPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-white text-xl mb-4">Select Games</h3>
-            <div className="flex flex-col space-y-2">
-              {allGames.slice(0, showAllGames ? allGames.length : 3).map((game) => (
-                <button
-                  key={game}
-                  onClick={() => handleSelectGame(game)}
-                  className={`p-2 rounded-lg ${
-                    selectedGames.includes(game)
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-700 text-gray-300"
-                  }`}
-                >
-                  {selectedGames.includes(game) ? `✔ ${game}` : game}
-                </button>
-              ))}
-            </div>
-            {!showAllGames && (
-              <button
-                onClick={() => setShowAllGames(true)}
-                className="mt-4 w-full p-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600"
-              >
-                Show more
-              </button>
-            )}
-            <div className="mt-4">
-              {selectedGames.map((game) => (
-                <button
-                  key={`${game}-login`}
-                  onClick={() => handleOAuthLogin(game)}
-                  className="w-full p-2 mb-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-400"
-                >
-                  Log in to {game}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={handleSkipGames}
-              className="mt-4 w-full p-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600"
-            >
-              Skip for now
-            </button>
-          </div>
-        </div>
+        <SelectGamesPopup
+          allGames={allGames}
+          selectedGames={selectedGames}
+          onSelectGame={handleSelectGame}
+          onOAuthLogin={handleOAuthLogin}
+          onClose={handleSkipGames}
+        />
       )}
     </div>
   );
