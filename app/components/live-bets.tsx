@@ -2,6 +2,47 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import Link from 'next/link';
+import { UserCircleIcon, CurrencyDollarIcon } from "@heroicons/react/24/outline";
+
+// Mock data for live bets
+const liveBetsData = [
+  {
+    id: 1,
+    player1: "Alex",
+    player2: "Jordan",
+    amount: 250,
+    odds: "1.5x",
+    timeLeft: "5:30",
+  },
+  {
+    id: 2,
+    player1: "Sarah",
+    player2: "Mike",
+    amount: 500,
+    odds: "2.0x",
+    timeLeft: "3:45",
+  },
+];
+
+const highRollersData = [
+  {
+    id: 1,
+    player1: "BigSpender123",
+    player2: "WhaleGamer",
+    amount: 1000,
+    game: "CS2",
+    timestamp: "2 min ago",
+  },
+  {
+    id: 2,
+    player1: "ProGamer",
+    player2: "HighStakes",
+    amount: 750,
+    game: "Valorant",
+    timestamp: "5 min ago",
+  },
+];
 
 export default function LiveBets() {
   type SectionType = "mybets" | "livebets" | "highrollers";
@@ -29,6 +70,13 @@ export default function LiveBets() {
     }
   };
 
+  const formatMoney = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount);
+  };
+
   const sections: Record<SectionType, JSX.Element> = {
     mybets: (
       <motion.div 
@@ -38,33 +86,85 @@ export default function LiveBets() {
         <div className="text-center space-y-4">
           <span className="text-[#86d9f9] text-lg">No active bets</span>
           <p className="text-[#c3c8f3]/70">Place your first bet to get started!</p>
-          <button className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg text-white font-medium hover:opacity-90 transition-opacity">
+          <Link 
+            href="/all-games"
+            className="inline-block px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg text-white font-medium 
+              hover:opacity-90 transition-all duration-300 shadow-[0_0_20px_rgba(0,231,255,0.3)]
+              hover:shadow-[0_0_25px_rgba(0,231,255,0.4)] transform hover:scale-105"
+          >
             Place Bet
-          </button>
+          </Link>
         </div>
       </motion.div>
     ),
     livebets: (
       <motion.div 
-        className="glass-card p-6 rounded-xl"
+        className="glass-card p-6 rounded-xl space-y-4"
         variants={contentVariants}
       >
-        <div className="text-center space-y-4">
-          <span className="text-[#86d9f9] text-lg">Live bets</span>
-          <p className="text-[#c3c8f3]/70">Here are the live bets!</p>
-        </div>
+        {liveBetsData.map((bet) => (
+          <motion.div 
+            key={bet.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="bg-[#1a1b32]/60 p-4 rounded-lg border border-[#86d9f9]/20 hover:border-[#86d9f9]/40 transition-all"
+          >
+            <div className="flex justify-between items-center">
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <UserCircleIcon className="w-6 h-6 text-[#86d9f9]" />
+                  <span className="text-white">{bet.player1}</span>
+                </div>
+                <span className="text-[#86d9f9]">vs</span>
+                <div className="flex items-center space-x-2">
+                  <UserCircleIcon className="w-6 h-6 text-[#86d9f9]" />
+                  <span className="text-white">{bet.player2}</span>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <span className="text-[#86d9f9]">{bet.odds}</span>
+                <span className="text-green-400 font-medium">{formatMoney(bet.amount)}</span>
+                <span className="text-[#c3c8f3]/70 text-sm">{bet.timeLeft}</span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </motion.div>
     ),
     highrollers: (
       <motion.div 
-        className="glass-card p-6 rounded-xl"
+        className="glass-card p-6 rounded-xl space-y-4"
         variants={contentVariants}
       >
-        <div className="text-center space-y-4">
-          <span className="text-[#86d9f9] text-lg">Top Bet</span>
-          <p className="text-[#c3c8f3]/70">50 BTC</p>
-          <p className="text-[#c3c8f3]/70">Player: BigSpender123</p>
-        </div>
+        {highRollersData.map((bet) => (
+          <motion.div 
+            key={bet.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="bg-[#1a1b32]/60 p-4 rounded-lg border border-[#86d9f9]/20 hover:border-[#86d9f9]/40 transition-all"
+          >
+            <div className="flex justify-between items-center">
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <UserCircleIcon className="w-6 h-6 text-[#86d9f9]" />
+                  <span className="text-white">{bet.player1}</span>
+                </div>
+                <span className="text-[#86d9f9]">vs</span>
+                <div className="flex items-center space-x-2">
+                  <UserCircleIcon className="w-6 h-6 text-[#86d9f9]" />
+                  <span className="text-white">{bet.player2}</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-end">
+                <div className="flex items-center space-x-2">
+                  <span className="text-green-400 font-medium">{formatMoney(bet.amount)}</span>
+                  <span className="text-[#86d9f9] text-sm">{bet.game}</span>
+                </div>
+                <p className="text-sm text-[#c3c8f3]/70">{bet.timestamp}</p>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </motion.div>
     ),
   };

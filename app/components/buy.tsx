@@ -2,13 +2,17 @@
 
 import React, { useState } from "react";
 
+interface BuyProps {
+  onSuccess: () => Promise<void>;
+}
+
 const coins = [
   { name: "BTC", label: "Bitcoin", icon: "/images/coins/btc.png" },
   { name: "ETH", label: "Ethereum", icon: "/images/coins/eth.png" },
   { name: "USDT", label: "Tether", icon: "/images/coins/usdt.png" },
 ];
 
-const Buy: React.FC = () => {
+const Buy: React.FC<BuyProps> = ({ onSuccess }) => {
   const [selectedCoin, setSelectedCoin] = useState<string>("BTC");
   const [purchaseAmount, setPurchaseAmount] = useState<string>("");
   const [showDropdown, setShowDropdown] = useState<boolean>(false);

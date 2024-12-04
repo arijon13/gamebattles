@@ -25,14 +25,14 @@ API.interceptors.request.use(
 // Register a new user
 export const registerUser = async (username: string, email: string, password: string) => {
   try {
-    console.log('Sending registration request:', { email, username }); // Log the request
+    console.log('Sending registration request:', { email, username });
     const response = await API.post("/auth/register", { username, email, password });
-    console.log('Registration response:', response.data); // Log the response
+    console.log('Registration response:', response.data);
     return response.data;
   } catch (error: any) {
-    console.error('Full error object:', error); // Log the full error
-    console.error('Error response:', error.response); // Log the response if it exists
-    console.error('Error message:', error.message); // Log the error message
+    console.error('Full error object:', error);
+    console.error('Error response:', error.response);
+    console.error('Error message:', error.message);
     
     const errorMessage = error.response?.data?.error 
       || error.message 
@@ -45,12 +45,11 @@ export const registerUser = async (username: string, email: string, password: st
 // Log in a user
 export const loginUser = async (email: string, password: string) => {
   try {
-    console.log('Attempting login with:', { email }); // Log the request (don't log password)
+    console.log('Attempting login with:', { email });
     const response = await API.post("/auth/login", { email, password });
-    console.log('Login response:', response.data); // Log the success response
+    console.log('Login response:', response.data);
     return response.data;
   } catch (error: any) {
-    // Detailed error logging
     console.error('Login Error Details:', {
       message: error.message,
       status: error.response?.status,
@@ -63,26 +62,78 @@ export const loginUser = async (email: string, password: string) => {
     });
     
     if (error.response) {
-      // The server responded with a status code outside the 2xx range
       throw new Error(error.response.data.error || 'Server error');
     } else if (error.request) {
-      // The request was made but no response was received
       throw new Error('No response from server');
     } else {
-      // Something happened in setting up the request
       throw new Error('Error setting up request');
     }
   }
 };
 
-// Fetch user balance (Protected route)
+// Fetch user balance
 export const getUserBalance = async () => {
   try {
+    console.log('Fetching balance from server...');
     const response = await API.get("/auth/balance");
+    console.log('Balance response:', response.data);
+    return {
+      btcBalance: response.data.balance || 0,
+      ethBalance: 0,
+      usdtBalance: 0
+    };
+  } catch (error: any) {
+    console.error('Error fetching balance:', error);
+    handleError(error);
+    return { btcBalance: 0, ethBalance: 0, usdtBalance: 0 };
+  }
+};
+
+// Make a deposit
+export const makeDeposit = async (amount: number, currency: string) => {
+  try {
+    const response = await API.post("/deposit", { amount, currency });
     return response.data;
   } catch (error: any) {
     handleError(error);
   }
+};
+
+// Withdraw funds
+export const makeWithdrawal = async (amount: number, currency: string, address: string) => {
+  try {
+    const response = await API.post("/withdraw", { amount, currency, address });
+    return response.data;
+  } catch (error: any) {
+    handleError(error);
+  }
+};
+
+// Get transaction history
+export const getTransactionHistory = async () => {
+  try {
+    const response = await API.get("/transactions");
+    return response.data;
+  } catch (error: any) {
+    handleError(error);
+  }
+};
+
+// Update user profile
+export const updateUserProfile = async (userData: any) => {
+  try {
+    const response = await API.put("/auth/profile", userData);
+    return response.data;
+  } catch (error: any) {
+    handleError(error);
+  }
+};
+
+// Logout user
+export const logout = () => {
+  localStorage.removeItem("token");
+  // You might want to also clear other stored data
+  localStorage.clear();
 };
 
 // Handle Errors

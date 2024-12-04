@@ -2,21 +2,25 @@
 
 import { useAuth } from "../authcontext";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WalletPopup from "./wallet-popup";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Header() {
-  const { isLoggedIn, logout, balance } = useAuth();
+  const { isLoggedIn, logout, btcBalance, ethBalance, usdtBalance, updateBalance } = useAuth();
   const [selectedCurrency, setSelectedCurrency] = useState("BTC");
   const [showBalanceDropdown, setShowBalanceDropdown] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [showWalletPopup, setShowWalletPopup] = useState(false);
 
+  useEffect(() => {
+    console.log('Current balances:', { btcBalance, ethBalance, usdtBalance });
+  }, [btcBalance, ethBalance, usdtBalance]);
+
   const currencies = [
-    { name: "BTC", balance: balance, icon: "/images/coins/btc.png" },
-    { name: "ETH", balance: balance * 20, icon: "/images/coins/eth.png" },
-    { name: "USDT", balance: balance * 100, icon: "/images/coins/usdt.png" },
+    { name: "BTC", balance: Number(btcBalance || 0), icon: "/images/coins/btc.png" },
+    { name: "ETH", balance: Number(ethBalance || 0), icon: "/images/coins/eth.png" },
+    { name: "USDT", balance: Number(usdtBalance || 0), icon: "/images/coins/usdt.png" },
   ];
 
   const toggleProfileDropdown = () => {
@@ -31,6 +35,12 @@ export default function Header() {
   const toggleWalletPopup = () => {
     setShowWalletPopup(!showWalletPopup);
     setShowProfileDropdown(false);
+  };
+
+  const getCurrentBalance = () => {
+    const currency = currencies.find(c => c.name === selectedCurrency);
+    const balance = currency ? currency.balance : 0;
+    return isNaN(balance) ? '0.00000000' : balance.toFixed(8);
   };
 
   return (
@@ -60,7 +70,7 @@ export default function Header() {
                   className="flex items-center px-4 py-2 rounded-l-lg border border-[#86d9f9]/20 
                     text-white bg-[#1a1b32]/80 hover:bg-[#2e3354]/80 h-[40px] transition-all backdrop-blur-sm"
                 >
-                  <span>{balance ? balance.toFixed(8) : "0.00"}</span>
+                  <span>{getCurrentBalance()}</span>
                   <img
                     src={currencies.find((c) => c.name === selectedCurrency)?.icon}
                     alt={selectedCurrency}
@@ -92,7 +102,7 @@ export default function Header() {
                             }}
                             className="px-4 py-2 flex items-center space-x-2 hover:bg-[#3c4263] cursor-pointer text-[#c3c8f3]"
                           >
-                            <span>{currency.balance.toFixed(8)}</span>
+                            <span>{(currency.balance || 0).toFixed(8)}</span>
                             <img
                               src={currency.icon}
                               alt={currency.name}

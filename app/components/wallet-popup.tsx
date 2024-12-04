@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useAuth } from "../authcontext";
 import Deposit from "./deposit";
 import Withdraw from "./withdraw";
 import Buy from "./buy";
@@ -10,9 +11,14 @@ interface WalletPopupProps {
 }
 
 const WalletPopup: React.FC<WalletPopupProps> = ({ onClose }) => {
+  const { updateBalance } = useAuth();
   const [activeTab, setActiveTab] = useState<"deposit" | "withdraw" | "buy">(
     "deposit"
   );
+
+  const handleTransactionSuccess = async () => {
+    await updateBalance();
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -73,9 +79,9 @@ const WalletPopup: React.FC<WalletPopupProps> = ({ onClose }) => {
 
         {/* Content Section */}
         <div className="p-6 overflow-y-auto h-[calc(100%-130px)] bg-gradient-to-b from-[#1a1d31] to-[#10132b] rounded-b-lg shadow-inner custom-scrollbar">
-          {activeTab === "deposit" && <Deposit />}
-          {activeTab === "withdraw" && <Withdraw />}
-          {activeTab === "buy" && <Buy />}
+          {activeTab === "deposit" && <Deposit onSuccess={handleTransactionSuccess} />}
+          {activeTab === "withdraw" && <Withdraw onSuccess={handleTransactionSuccess} />}
+          {activeTab === "buy" && <Buy onSuccess={handleTransactionSuccess} />}
         </div>
       </div>
     </div>

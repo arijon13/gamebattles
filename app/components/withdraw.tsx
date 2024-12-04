@@ -2,13 +2,17 @@
 
 import React, { useState } from "react";
 
+interface WithdrawProps {
+  onSuccess: () => Promise<void>;
+}
+
 const coins = [
   { name: "BTC", label: "Bitcoin", icon: "/images/coins/btc.png" },
   { name: "ETH", label: "Ethereum", icon: "/images/coins/eth.png" },
   { name: "USDT", label: "Tether", icon: "/images/coins/usdt.png" },
 ];
 
-const Withdraw: React.FC = () => {
+const Withdraw: React.FC<WithdrawProps> = ({ onSuccess }) => {
   const [selectedCoin, setSelectedCoin] = useState<string>("BTC"); // Default to BTC
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [withdrawAmount, setWithdrawAmount] = useState<string>(""); // Initial value as an empty string
