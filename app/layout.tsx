@@ -7,6 +7,7 @@ import Footer from "./components/footer";
 import { AuthProvider } from "./authcontext";
 import { FavouritesProvider } from "./favourites/favouritesContext";
 import "./globals.css";
+import LiveChat from './components/LiveChat';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,6 +34,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 <Footer />
               </div>
             </div>
+            <LiveChat />
           </body>
         </html>
       </FavouritesProvider>

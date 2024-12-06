@@ -7,6 +7,9 @@ import {
   CurrencyDollarIcon,
   ShieldCheckIcon,
   QuestionMarkCircleIcon,
+  TrophyIcon,
+  CircleStackIcon,
+  HashtagIcon,
 } from "@heroicons/react/24/outline";
 
 export default function Profile() {
@@ -122,23 +125,38 @@ export default function Profile() {
           <StatCard 
             label="Win Rate" 
             value={user.winRate}
-            icon={<ChartBarIcon className="w-5 h-5" />}
+            icon={<TrophyIcon className="w-5 h-5" />}
             gradient="from-green-500/20 to-green-500/5"
           />
-          <StatCard label="Games" value={user.gamesPlayed} icon={<ChartBarIcon className="w-5 h-5" />} gradient="from-blue-500/20 to-blue-500/5" />
-          <StatCard label="Wagered" value={user.totalWagered} icon={<CurrencyDollarIcon className="w-5 h-5" />} gradient="from-yellow-500/20 to-yellow-500/5" />
-          <StatCard label="Rank" value={user.rank} icon={<ChartBarIcon className="w-5 h-5" />} gradient="from-purple-500/20 to-purple-500/5" />
+          <StatCard 
+            label="Games" 
+            value={user.gamesPlayed} 
+            icon={<CircleStackIcon className="w-5 h-5" />} 
+            gradient="from-blue-500/20 to-blue-500/5" 
+          />
+          <StatCard 
+            label="Wagered" 
+            value={user.totalWagered} 
+            icon={<CurrencyDollarIcon className="w-5 h-5" />} 
+            gradient="from-yellow-500/20 to-yellow-500/5" 
+          />
+          <StatCard 
+            label="Rank" 
+            value={user.rank} 
+            icon={<HashtagIcon className="w-5 h-5" />} 
+            gradient="from-purple-500/20 to-purple-500/5" 
+          />
         </div>
 
         <div className="bg-[#1E1F3B] rounded-2xl p-6">
           <h3 className="text-xl font-bold text-white mb-6">Recent Matches</h3>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {user.matches.map(match => (
               <div key={match.id} 
-                className="flex items-center justify-between p-4 bg-[#86d9f9]/5 rounded-xl hover:bg-[#86d9f9]/10 transition-colors">
+                className="flex items-center justify-between p-4 bg-[#86d9f9]/5 rounded-xl hover:bg-[#86d9f9]/10 hover:shadow-lg hover:shadow-[#86d9f9]/5 transition-all duration-300">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-[#86d9f9]/10 flex items-center justify-center">
-                    <span className="text-[#86d9f9] text-lg">FN</span>
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#86d9f9]/20 to-[#86d9f9]/5 flex items-center justify-center">
+                    <span className="text-[#86d9f9] text-lg font-medium">FN</span>
                   </div>
                   <div>
                     <p className="text-white font-medium">{match.game} {match.type}</p>
@@ -146,14 +164,14 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className={`px-3 py-1.5 rounded-lg font-medium ${
+                  <span className={`px-4 py-2 rounded-lg font-medium ${
                     match.result === 'Win' 
                       ? 'bg-green-500/20 text-green-400' 
                       : 'bg-red-500/20 text-red-400'
                   }`}>
                     {match.result}
                   </span>
-                  <span className="text-[#86d9f9] font-medium">{match.amount}</span>
+                  <span className="text-[#86d9f9] font-medium text-lg">{match.amount}</span>
                 </div>
               </div>
             ))}
@@ -179,11 +197,11 @@ const TabButton = ({ active, onClick, icon, label }: { active: boolean; onClick:
 );
 
 const StatCard = ({ label, value, icon, gradient }: { label: string; value: string; icon: React.ReactNode; gradient: string }) => (
-  <div className={`p-4 rounded-xl bg-gradient-to-br ${gradient} hover:scale-105 transition-transform`}>
-    <div className="flex items-center text-[#86d9f9] mb-2">
+  <div className={`p-4 rounded-xl bg-gradient-to-br ${gradient} hover:scale-105 hover:shadow-lg hover:shadow-[#86d9f9]/5 transition-all duration-300`}>
+    <div className="flex items-center text-[#86d9f9] mb-3">
       {icon}
-      <span className="ml-2 text-sm">{label}</span>
+      <span className="ml-2 text-sm font-medium">{label}</span>
     </div>
-    <p className="text-xl font-bold text-white">{value}</p>
+    <p className="text-2xl font-bold text-white">{value}</p>
   </div>
 );

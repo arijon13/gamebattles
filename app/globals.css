@@ -4,6 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE og Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

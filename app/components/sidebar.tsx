@@ -60,7 +60,7 @@ export default function Sidebar({
       </div>
 
       {/* Main Links with Tooltips */}
-      <div className="mt-4 flex flex-col items-center">
+      <div className="mt-4 flex flex-col items-center flex-grow">
         <nav className="w-full space-y-2 px-2">
           {mainLinks.map((link) => (
             <Tooltip key={link.href} content={link.label} side="right">
@@ -83,6 +83,20 @@ export default function Sidebar({
           ))}
         </nav>
       </div>
+
+      {/* Total Bets Section */}
+      {menuOpen && (
+        <div className="mt-auto mb-6 px-4 py-4 border-t border-[#2e3354]/30">
+          <div className="bg-gradient-to-r from-[#1a1d31] to-[#2e3354] 
+                        p-3 rounded-xl border border-[#3d4674]/30 text-center">
+            <p className="text-xs text-[#86d9f9] mb-1">Total Bets Placed</p>
+            <p className="text-xl font-bold bg-gradient-to-r from-[#00e7ff] to-[#0077ff] 
+                         bg-clip-text text-transparent">
+              1,234,567
+            </p>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }
